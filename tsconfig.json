@@ -15,4 +15,5 @@
     "esModuleInterop": true,
   },
   "include": ["src", "codegen.ts"],
+  "exclude": ["dist", "node_modules"]
 }
