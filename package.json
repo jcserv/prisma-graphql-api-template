@@ -8,6 +8,7 @@
     "start": "pnpm compile && node dist/src/index.js",
     "dev": "pnpm prisma:gen && ts-node-dev -r tsconfig-paths/register --transpile-only src/index.ts",
     "dev:db": "docker compose up",
+    "gen": "pnpm prisma:gen && pnpm codegen",
     "prisma:pull": "prisma db pull",
     "prisma:gen": "prisma generate",
     "prisma:migrate": "prisma migrate dev --name",
