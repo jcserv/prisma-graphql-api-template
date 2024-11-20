@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.ts",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "scripts": {
     "compile": "rm -rf dist && tsc --project tsconfig.build.json",
     "start": "pnpm compile && node dist/src/index.js",
@@ -21,9 +24,21 @@
     "gen": "pnpm prisma:gen && pnpm codegen",
     "clean": "rm -rf dist node_modules"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "dependencies": {
+    "@apollo/server": "^4.11.2",
+    "@pothos/core": "^4.3.0",
+    "@pothos/plugin-dataloader": "^4.3.0",
+    "@pothos/plugin-prisma": "^4.3.1",
+    "@pothos/plugin-relay": "^4.3.0",
+    "@prisma/adapter-pg": "^5.22.0",
+    "@prisma/client": "5.22.0",
+    "dataloader": "^2.2.2",
+    "dotenv": "^16.4.5",
+    "graphql": "^16.9.0",
+    "graphql-scalars": "^1.23.0",
+    "graphql-tag": "^2.12.6",
+    "pg": "^8.13.1"
+  },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
     "@faker-js/faker": "^9.2.0",
@@ -45,20 +60,5 @@
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.15.0",
     "vitest": "^2.1.5"
-  },
-  "dependencies": {
-    "@apollo/server": "^4.11.2",
-    "@pothos/core": "^4.3.0",
-    "@pothos/plugin-dataloader": "^4.3.0",
-    "@pothos/plugin-prisma": "^4.3.1",
-    "@pothos/plugin-relay": "^4.3.0",
-    "@prisma/adapter-pg": "^5.22.0",
-    "@prisma/client": "5.22.0",
-    "dataloader": "^2.2.2",
-    "dotenv": "^16.4.5",
-    "graphql": "^16.9.0",
-    "graphql-scalars": "^1.23.0",
-    "graphql-tag": "^2.12.6",
-    "pg": "^8.13.1"
   }
 }
