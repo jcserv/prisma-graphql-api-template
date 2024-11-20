@@ -1,33 +1,36 @@
 # prisma-graphql-api-template
 
-This is a template for creating a GraphQL API with Apollo Server, Prisma ORM, and
-Pothos.
+![visitors](https://img.shields.io/endpoint?url=https://vu-mi.com/api/v1/views?id=jcserv/prisma-graphql-api-template)
+
+this template can be used to quickly setup a prisma + graphql + typescipt project,
+with all the required configuration out of the box.
 
 ## features
 
-- Apollo GraphQL Playground
-- Prisma ORM
-- Code generation
-- Docker
-- TODO: Dataloaders
+- 💠 prisma orm
+- 🌀 code generation
+- 📦 dataloaders! (n+1 problem begone!)
+- 🧪 unit/e2e tests setup
+- 🚀 dev workflow tools galore (vscode, husky, eslint, prettier, etc)
+- ✅ continuous integration with github workflows
 
 ## installation
 
 ### prerequisites
 
-- Node.js
-- pnpm
-- Docker
+- [node.js](https://nodejs.org/en)
+- [pnpm](https://pnpm.io/installation)
+- [docker](https://docs.docker.com/get-started/get-docker/)
 
 ### using this template
 
-1. Create a Github repository, using this template
-2. Replace all instances of "prisma-graphql-api-template" with "<YOUR_REPO_NAME>"
+1. create a Github repository, using this template
+2. replace all instances of "prisma-graphql-api-template" with "<YOUR_REPO_NAME>"
 
 ### running locally
 
-1. Clone this repo
-2. Run `pnpm i`
-3. Run `pnpm dev:db`
-4. Run `pnpm dev`
-5. Visit http://localhost:4000/graphql in your browser
+1. clone this repo
+2. run `pnpm i`
+3. run `pnpm dev:db`
+4. run `pnpm dev`
+5. visit http://localhost:4000/graphql in your browser
