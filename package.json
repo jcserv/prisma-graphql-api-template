@@ -7,8 +7,8 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "compile": "rm -rf dist && tsc --project tsconfig.build.json && tsc-alias -p tsconfig.build.json",
-    "start": "pnpm compile && node dist/src/index.js",
+    "build": "rm -rf dist && tsc --project tsconfig.build.json && tsc-alias -p tsconfig.build.json",
+    "start": "pnpm build && node dist/src/index.js",
     "prepare": "husky",
     "lint": "eslint .",
     "lint:fix": "prettier . --write && eslint . --fix",
