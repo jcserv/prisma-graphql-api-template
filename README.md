@@ -26,6 +26,12 @@ with all the required configuration out of the box.
 
 1. create a Github repository, using this template
 2. replace all instances of "prisma-graphql-api-template" with "<YOUR_REPO_NAME>"
+3. initialize your .env file (see .env.example)
+4. go to your github repo settings and add the following secrets:
+   - DATABASE_URL
+   - POSTGRES_USER
+   - POSTGRES_PASSWORD
+   - POSTGRES_DB
 
 ### running locally
 
