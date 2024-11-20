@@ -11,6 +11,7 @@
     "lint:fix": "prettier . --write && eslint . --fix",
     "test": "vitest",
     "test:watch": "vitest watch",
+    "test:types": "tsc --noEmit",
     "dev": "pnpm prisma:gen && ts-node-dev -r tsconfig-paths/register --transpile-only src/index.ts",
     "dev:db": "docker compose up",
     "codegen": "NODE_OPTIONS='-r tsconfig-paths/register' graphql-codegen --config codegen.ts",
