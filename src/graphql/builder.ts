@@ -23,7 +23,7 @@ export const builder = new SchemaBuilder<{
   relay: {
     cursorType: "String",
     clientMutationId: "omit",
-    nodesOnConnection: false
+    nodesOnConnection: false,
   },
 });
 

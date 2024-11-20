@@ -1,6 +1,6 @@
 export function compare(
   a: string | number | undefined | null,
-  b: string | number | undefined | null
+  b: string | number | undefined | null,
 ) {
   if (a == null) {
     return -1;

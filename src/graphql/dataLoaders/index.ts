@@ -42,19 +42,19 @@ export const createBooksByAuthorLoader = () => {
         },
       },
       orderBy: {
-        id: 'asc',
+        id: "asc",
       },
     });
 
     const booksByAuthor = new Map<number, Book[]>();
-    authorIds.forEach(id => booksByAuthor.set(id, []));
-    
-    books.forEach(book => {
+    authorIds.forEach((id) => booksByAuthor.set(id, []));
+
+    books.forEach((book) => {
       const authorBooks = booksByAuthor.get(book.author_id) || [];
       authorBooks.push(book);
       booksByAuthor.set(book.author_id, authorBooks);
     });
 
-    return authorIds.map(id => booksByAuthor.get(id) || []);
+    return authorIds.map((id) => booksByAuthor.get(id) || []);
   });
 };
