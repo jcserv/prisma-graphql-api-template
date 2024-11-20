@@ -7,7 +7,7 @@ with all the required configuration out of the box.
 
 ## features
 
-- 💠 prisma orm
+- 💠 prisma orm, apollo server, pothos, relay
 - 🌀 code generation
 - 📦 dataloaders! (n+1 problem begone!)
 - 🧪 unit/e2e tests setup
