@@ -7,6 +7,7 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: 
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: number; output: string | number; }
@@ -62,6 +63,18 @@ export type PageInfo = {
 
 export type Query = {
   __typename?: 'Query';
+  authors?: Maybe<Array<Author>>;
+  books?: Maybe<Array<Book>>;
+};
+
+
+export type QueryAuthorsArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryBooksArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
@@ -201,7 +214,10 @@ export type PageInfoResolvers<ContextType = any, ParentType extends ResolversPar
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {};
+export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  authors?: Resolver<Maybe<Array<ResolversTypes['Author']>>, ParentType, ContextType, RequireFields<QueryAuthorsArgs, 'id'>>;
+  books?: Resolver<Maybe<Array<ResolversTypes['Book']>>, ParentType, ContextType, RequireFields<QueryBooksArgs, 'id'>>;
+};
 
 export type Resolvers<ContextType = any> = {
   Author?: AuthorResolvers<ContextType>;
