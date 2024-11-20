@@ -37,7 +37,6 @@ export type AuthorBooksArgs = {
 export type AuthorBooksConnection = {
   __typename?: 'AuthorBooksConnection';
   edges?: Maybe<Array<Maybe<AuthorBooksConnectionEdge>>>;
-  nodes?: Maybe<Array<Maybe<Book>>>;
   pageInfo: PageInfo;
 };
 
@@ -185,7 +184,6 @@ export type AuthorResolvers<ContextType = any, ParentType extends ResolversParen
 
 export type AuthorBooksConnectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['AuthorBooksConnection'] = ResolversParentTypes['AuthorBooksConnection']> = {
   edges?: Resolver<Maybe<Array<Maybe<ResolversTypes['AuthorBooksConnectionEdge']>>>, ParentType, ContextType>;
-  nodes?: Resolver<Maybe<Array<Maybe<ResolversTypes['Book']>>>, ParentType, ContextType>;
   pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
