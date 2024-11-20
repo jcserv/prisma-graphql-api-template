@@ -8,7 +8,7 @@ export default [
   {
     ignores: ["db/", "node_modules/", "prisma/", "src/__generated__/", "dist/"],
   },
-  { languageOptions: { globals: globals.browser } },
+  { languageOptions: { globals: globals.node } },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
 ];
