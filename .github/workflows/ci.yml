@@ -17,9 +17,9 @@ jobs:
       postgres:
         image: postgres:15
         env:
-          POSTGRES_USER: root
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: prisma-graphql-api-template
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
         ports:
           - 5432:5432
         options: >-
@@ -45,6 +45,9 @@ jobs:
 
       - name: Install dependencies
         run: pnpm i
+
+      - name: Load Schema
+        run: psql ${{ secrets.DATABASE_URL }} < db/schema.sql
 
       - name: Generate Prisma Client & GraphQL Types
         run: pnpm gen
