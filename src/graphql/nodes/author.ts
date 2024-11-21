@@ -1,9 +1,10 @@
-import { Book } from "@/__generated__/graphql";
-import { BookNode } from "@/graphql/book";
-import { AuthorRef } from "@/graphql/builder";
+import { prisma } from "@/db";
+import { builder, QueryFieldBuilder } from "@/graphql/builder";
+import { BookNode } from "@/graphql/nodes/book";
 import { compare } from "@/utils";
+import { author, book } from "@prisma/client";
 
-export const AuthorNode = AuthorRef.implement({
+export const AuthorNode = builder.objectRef<author>("Author").implement({
   fields: (t) => ({
     id: t.exposeID("id"),
     name: t.exposeString("name"),
@@ -11,7 +12,7 @@ export const AuthorNode = AuthorRef.implement({
       type: BookNode,
       resolve: async (parent, args, context) => {
         const allBooks = await context.loaders.booksByAuthor.load(
-          parseInt(parent.id as string),
+          parent.id,
         );
 
         const sortedBooks = [...allBooks].sort((a, b) => compare(a.id, b.id));
@@ -41,7 +42,7 @@ export const AuthorNode = AuthorRef.implement({
           node,
         })) as Array<{
           cursor: string;
-          node: Book;
+          node: book;
         }>;
 
         return {
@@ -57,3 +58,19 @@ export const AuthorNode = AuthorRef.implement({
     }),
   }),
 });
+
+export function addAuthorNode(t: QueryFieldBuilder) {
+  return t.field({
+    type: [AuthorNode],
+    args: {
+      id: t.arg.id({ required: true }),
+    },
+    resolve: async (_parent, args) => {
+      return prisma.author.findMany({
+        where: {
+          id: parseInt(args.id),
+        },
+      });
+    },
+  });
+}
