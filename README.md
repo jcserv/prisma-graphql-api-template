@@ -41,10 +41,9 @@ with all the required configuration out of the box.
 4. run `pnpm dev`
 5. visit http://localhost:4000/graphql in your browser
 
-add to template
-- move nodes into nodes/ folder
-- infer builder types
-- builder.objectRef should be looking at prisma type
+### running tests
+1. run `pnpm test:db:down`
+2. run `pnpm test:db`
+3. run `pnpm test`
 
-- fix test db using docker db
 - test extension

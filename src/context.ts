@@ -1,4 +1,3 @@
-import { prisma } from "@/db";
 import {
   createAuthorLoader,
   createBookLoader,
@@ -6,7 +5,6 @@ import {
 } from "@/graphql/dataLoaders";
 
 export interface Context {
-  prisma: typeof prisma;
   loaders: {
     book: ReturnType<typeof createBookLoader>;
     author: ReturnType<typeof createAuthorLoader>;
@@ -16,7 +14,6 @@ export interface Context {
 
 export async function createContext(): Promise<Context> {
   return {
-    prisma,
     loaders: {
       book: createBookLoader(),
       author: createAuthorLoader(),

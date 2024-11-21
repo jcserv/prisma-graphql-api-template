@@ -1,1 +1,2 @@
 DATABASE_URL="postgresql://root:password@localhost:5432/prisma-graphql-api-template"
+TEST_DATABASE_URL="postgresql://root:password@localhost:5433/prisma-graphql-api-template-test"

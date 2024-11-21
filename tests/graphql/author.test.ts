@@ -3,6 +3,7 @@ import { gql } from "graphql-tag";
 import { TestContext } from "@tests/utils/context";
 import { AuthorFactory } from "@tests/factories";
 import { cleanupDatabase } from "@tests/utils";
+import { prisma } from "@/db";
 
 interface GetAuthorsResponse {
   authors: Array<{
@@ -20,7 +21,7 @@ interface GetAuthorsResponse {
 }
 
 const GET_AUTHORS = gql`
-  query GetAuthors($id: ID!) {
+  query GetAuthors($id: Int!) {
     authors(id: $id) {
       id
       name
@@ -44,12 +45,12 @@ describe("When querying authors endpoint", () => {
   });
 
   afterEach(async () => {
-    await cleanupDatabase(ctx.db);
-    await ctx.db.$disconnect();
+    await cleanupDatabase(prisma);
+    await prisma.$disconnect();
   });
 
   it("should return author with books using dataloader", async () => {
-    const authorFactory = new AuthorFactory(ctx.db);
+    const authorFactory = new AuthorFactory(prisma);
     const author = await authorFactory.createWithBooks(
       2,
       {

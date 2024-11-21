@@ -63,12 +63,12 @@ export function addAuthorNode(t: QueryFieldBuilder) {
   return t.field({
     type: [AuthorNode],
     args: {
-      id: t.arg.id({ required: true }),
+      id: t.arg.int({ required: true }),
     },
     resolve: async (_parent, args) => {
       return prisma.author.findMany({
         where: {
-          id: parseInt(args.id),
+          id: args.id,
         },
       });
     },

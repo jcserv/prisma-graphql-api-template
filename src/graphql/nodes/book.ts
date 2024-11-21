@@ -13,12 +13,12 @@ export function addBookNode(t: QueryFieldBuilder) {
   return t.field({
     type: [BookNode],
     args: {
-      id: t.arg.id({ required: true }),
+      id: t.arg.int({ required: true }),
     },
     resolve: async (parent, args) => {
       return prisma.book.findMany({
         where: {
-          id: parseInt(args.id),
+          id: args.id,
         },
       });
     },
