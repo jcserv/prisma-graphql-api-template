@@ -45,5 +45,3 @@ with all the required configuration out of the box.
 1. run `pnpm test:db:down`
 2. run `pnpm test:db`
 3. run `pnpm test`
-
-- test extension
