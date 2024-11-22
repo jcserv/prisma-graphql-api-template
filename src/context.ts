@@ -1,23 +1,8 @@
-import {
-  createAuthorLoader,
-  createBookLoader,
-  createBooksByAuthorLoader,
-} from "@/graphql/dataLoaders";
-
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface Context {
-  loaders: {
-    book: ReturnType<typeof createBookLoader>;
-    author: ReturnType<typeof createAuthorLoader>;
-    booksByAuthor: ReturnType<typeof createBooksByAuthorLoader>;
-  };
 }
 
 export async function createContext(): Promise<Context> {
   return {
-    loaders: {
-      book: createBookLoader(),
-      author: createAuthorLoader(),
-      booksByAuthor: createBooksByAuthorLoader(),
-    },
   };
 }

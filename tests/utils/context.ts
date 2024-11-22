@@ -5,11 +5,6 @@ import { ClientError, GraphQLClient } from "graphql-request";
 
 import { createPothosSchema } from '@/graphql/schema';
 import { Context } from '@/context';
-import {
-  createAuthorLoader,
-  createBookLoader,
-  createBooksByAuthorLoader,
-} from '@/graphql/dataLoaders';
 import { GraphQLResponse } from '@tests/graphql/types';
 import { prisma } from '@/db';
 
@@ -20,14 +15,7 @@ export class TestContext {
   static client: GraphQLClient;
 
   constructor() {
-    this.context = {
-      loaders: {
-        book: createBookLoader(),
-        author: createAuthorLoader(),
-        booksByAuthor: createBooksByAuthorLoader(),
-      },
-    };
-
+    this.context = {};
     this.server = new ApolloServer<Context>({
       schema: createPothosSchema().public,
     });
@@ -54,11 +42,6 @@ export class TestContext {
         this.context = {
           ...this.context,
           ...contextOverrides,
-          loaders: {
-            book: createBookLoader(),
-            author: createAuthorLoader(),
-            booksByAuthor: createBooksByAuthorLoader(),
-          },
         };
       }
 
@@ -71,12 +54,14 @@ export class TestContext {
       };
     } catch (error: unknown) {
       if (error instanceof ClientError) {
+        console.error(error);
         return {
           success: false,
           errors: [new GraphQLError(error.message, { originalError: error })],
         };
       }      
       const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      console.error(error);
       return {
         success: false,
         errors: [new GraphQLError(errorMessage)],

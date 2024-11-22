@@ -2,7 +2,7 @@ import { PrismaClient, author, Prisma } from "@prisma/client";
 import { faker } from "@faker-js/faker";
 import { BookFactory, CreateBookInput } from "@tests/factories";
 
-type CreateAuthorInput = Prisma.authorCreateInput;
+export type CreateAuthorInput = Prisma.authorCreateInput;
 
 export class AuthorFactory {
   constructor(private prisma: PrismaClient) {}
@@ -25,22 +25,20 @@ export class AuthorFactory {
   }
 
   async createMany(
-    count: number,
-    input: Partial<CreateAuthorInput> = {}
+    input: Partial<CreateAuthorInput>[] = []
   ): Promise<author[]> {
     const authors = [];
-    for (let i = 0; i < count; i++) {
-      authors.push(await this.create(input));
+    for (let i = 0; i < input.length; i++) {
+      authors.push(await this.create(input[i]));
     }
     return authors;
   }
 
   async createWithBooks(
-    bookCount: number = 1,
     authorInput: Partial<Omit<CreateAuthorInput, "book">> = {},
     bookInputs: Partial<CreateBookInput>[] = []
   ): Promise<author> {
-    const defaultBookInputs = Array(bookCount)
+    const defaultBookInputs = Array(bookInputs.length)
       .fill(null)
       .map((_, index) => bookInputs[index] || {});
 

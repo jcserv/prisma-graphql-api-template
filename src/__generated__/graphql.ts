@@ -19,37 +19,8 @@ export type Scalars = {
   Date: { input: any; output: any; }
 };
 
-export type Author = {
-  __typename?: 'Author';
-  books?: Maybe<AuthorBooksConnection>;
-  id?: Maybe<Scalars['ID']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-};
-
-
-export type AuthorBooksArgs = {
-  after?: InputMaybe<Scalars['String']['input']>;
-  before?: InputMaybe<Scalars['String']['input']>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-};
-
-export type AuthorBooksConnection = {
-  __typename?: 'AuthorBooksConnection';
-  edges?: Maybe<Array<Maybe<AuthorBooksConnectionEdge>>>;
-  pageInfo: PageInfo;
-};
-
-export type AuthorBooksConnectionEdge = {
-  __typename?: 'AuthorBooksConnectionEdge';
-  cursor: Scalars['String']['output'];
-  node?: Maybe<Book>;
-};
-
-export type Book = {
-  __typename?: 'Book';
-  id?: Maybe<Scalars['ID']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
+export type Node = {
+  id: Scalars['ID']['output'];
 };
 
 export type PageInfo = {
@@ -62,18 +33,103 @@ export type PageInfo = {
 
 export type Query = {
   __typename?: 'Query';
-  authors?: Maybe<Array<Author>>;
-  books?: Maybe<Array<Book>>;
+  authors?: Maybe<QueryAuthorsConnection>;
+  /** The books written by the author. */
+  books?: Maybe<QueryBooksConnection>;
+  node?: Maybe<Node>;
+  nodes: Array<Maybe<Node>>;
 };
 
 
 export type QueryAuthorsArgs = {
-  id: Scalars['ID']['input'];
+  after?: InputMaybe<Scalars['String']['input']>;
+  authorId?: InputMaybe<Scalars['Int']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
 export type QueryBooksArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type QueryNodeArgs = {
   id: Scalars['ID']['input'];
+};
+
+
+export type QueryNodesArgs = {
+  ids: Array<Scalars['ID']['input']>;
+};
+
+export type QueryAuthorsConnection = {
+  __typename?: 'QueryAuthorsConnection';
+  edges?: Maybe<Array<Maybe<QueryAuthorsConnectionEdge>>>;
+  pageInfo: PageInfo;
+};
+
+export type QueryAuthorsConnectionEdge = {
+  __typename?: 'QueryAuthorsConnectionEdge';
+  cursor: Scalars['String']['output'];
+  node?: Maybe<Author>;
+};
+
+export type QueryBooksConnection = {
+  __typename?: 'QueryBooksConnection';
+  edges?: Maybe<Array<Maybe<QueryBooksConnectionEdge>>>;
+  pageInfo: PageInfo;
+};
+
+export type QueryBooksConnectionEdge = {
+  __typename?: 'QueryBooksConnectionEdge';
+  cursor: Scalars['String']['output'];
+  node?: Maybe<Book>;
+};
+
+export type Author = Node & {
+  __typename?: 'author';
+  /** The numeric unique identifier of the author. */
+  authorId?: Maybe<Scalars['ID']['output']>;
+  books?: Maybe<AuthorBooksConnection>;
+  /** A unique string identifier for a card, used for pagination. */
+  id: Scalars['ID']['output'];
+  /** The name of the author. */
+  name?: Maybe<Scalars['String']['output']>;
+};
+
+
+export type AuthorBooksArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type AuthorBooksConnection = {
+  __typename?: 'authorBooksConnection';
+  edges?: Maybe<Array<Maybe<AuthorBooksConnectionEdge>>>;
+  pageInfo: PageInfo;
+};
+
+export type AuthorBooksConnectionEdge = {
+  __typename?: 'authorBooksConnectionEdge';
+  cursor: Scalars['String']['output'];
+  node?: Maybe<Book>;
+};
+
+export type Book = Node & {
+  __typename?: 'book';
+  /** The numeric unique identifier of the book. */
+  bookId?: Maybe<Scalars['ID']['output']>;
+  /** A unique string identifier for a card, used for pagination. */
+  id: Scalars['ID']['output'];
+  /** The title of the book. */
+  title?: Maybe<Scalars['String']['output']>;
 };
 
 
@@ -144,65 +200,59 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 ) => TResult | Promise<TResult>;
 
 
+/** Mapping of interface types */
+export type ResolversInterfaceTypes<_RefType extends Record<string, unknown>> = {
+  Node: ( Author ) | ( Book );
+};
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  Author: ResolverTypeWrapper<Author>;
-  AuthorBooksConnection: ResolverTypeWrapper<AuthorBooksConnection>;
-  AuthorBooksConnectionEdge: ResolverTypeWrapper<AuthorBooksConnectionEdge>;
-  Book: ResolverTypeWrapper<Book>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Date: ResolverTypeWrapper<Scalars['Date']['output']>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
+  Node: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Node']>;
   PageInfo: ResolverTypeWrapper<PageInfo>;
   Query: ResolverTypeWrapper<{}>;
+  QueryAuthorsConnection: ResolverTypeWrapper<QueryAuthorsConnection>;
+  QueryAuthorsConnectionEdge: ResolverTypeWrapper<QueryAuthorsConnectionEdge>;
+  QueryBooksConnection: ResolverTypeWrapper<QueryBooksConnection>;
+  QueryBooksConnectionEdge: ResolverTypeWrapper<QueryBooksConnectionEdge>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
+  author: ResolverTypeWrapper<Author>;
+  authorBooksConnection: ResolverTypeWrapper<AuthorBooksConnection>;
+  authorBooksConnectionEdge: ResolverTypeWrapper<AuthorBooksConnectionEdge>;
+  book: ResolverTypeWrapper<Book>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  Author: Author;
-  AuthorBooksConnection: AuthorBooksConnection;
-  AuthorBooksConnectionEdge: AuthorBooksConnectionEdge;
-  Book: Book;
   Boolean: Scalars['Boolean']['output'];
   Date: Scalars['Date']['output'];
   ID: Scalars['ID']['output'];
   Int: Scalars['Int']['output'];
+  Node: ResolversInterfaceTypes<ResolversParentTypes>['Node'];
   PageInfo: PageInfo;
   Query: {};
+  QueryAuthorsConnection: QueryAuthorsConnection;
+  QueryAuthorsConnectionEdge: QueryAuthorsConnectionEdge;
+  QueryBooksConnection: QueryBooksConnection;
+  QueryBooksConnectionEdge: QueryBooksConnectionEdge;
   String: Scalars['String']['output'];
-};
-
-export type AuthorResolvers<ContextType = any, ParentType extends ResolversParentTypes['Author'] = ResolversParentTypes['Author']> = {
-  books?: Resolver<Maybe<ResolversTypes['AuthorBooksConnection']>, ParentType, ContextType, Partial<AuthorBooksArgs>>;
-  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
-  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type AuthorBooksConnectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['AuthorBooksConnection'] = ResolversParentTypes['AuthorBooksConnection']> = {
-  edges?: Resolver<Maybe<Array<Maybe<ResolversTypes['AuthorBooksConnectionEdge']>>>, ParentType, ContextType>;
-  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type AuthorBooksConnectionEdgeResolvers<ContextType = any, ParentType extends ResolversParentTypes['AuthorBooksConnectionEdge'] = ResolversParentTypes['AuthorBooksConnectionEdge']> = {
-  cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  node?: Resolver<Maybe<ResolversTypes['Book']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type BookResolvers<ContextType = any, ParentType extends ResolversParentTypes['Book'] = ResolversParentTypes['Book']> = {
-  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
-  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+  author: Author;
+  authorBooksConnection: AuthorBooksConnection;
+  authorBooksConnectionEdge: AuthorBooksConnectionEdge;
+  book: Book;
 };
 
 export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
   name: 'Date';
 }
+
+export type NodeResolvers<ContextType = any, ParentType extends ResolversParentTypes['Node'] = ResolversParentTypes['Node']> = {
+  __resolveType: TypeResolveFn<'author' | 'book', ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+};
 
 export type PageInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['PageInfo'] = ResolversParentTypes['PageInfo']> = {
   endCursor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -213,17 +263,75 @@ export type PageInfoResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  authors?: Resolver<Maybe<Array<ResolversTypes['Author']>>, ParentType, ContextType, RequireFields<QueryAuthorsArgs, 'id'>>;
-  books?: Resolver<Maybe<Array<ResolversTypes['Book']>>, ParentType, ContextType, RequireFields<QueryBooksArgs, 'id'>>;
+  authors?: Resolver<Maybe<ResolversTypes['QueryAuthorsConnection']>, ParentType, ContextType, Partial<QueryAuthorsArgs>>;
+  books?: Resolver<Maybe<ResolversTypes['QueryBooksConnection']>, ParentType, ContextType, Partial<QueryBooksArgs>>;
+  node?: Resolver<Maybe<ResolversTypes['Node']>, ParentType, ContextType, RequireFields<QueryNodeArgs, 'id'>>;
+  nodes?: Resolver<Array<Maybe<ResolversTypes['Node']>>, ParentType, ContextType, RequireFields<QueryNodesArgs, 'ids'>>;
+};
+
+export type QueryAuthorsConnectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['QueryAuthorsConnection'] = ResolversParentTypes['QueryAuthorsConnection']> = {
+  edges?: Resolver<Maybe<Array<Maybe<ResolversTypes['QueryAuthorsConnectionEdge']>>>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type QueryAuthorsConnectionEdgeResolvers<ContextType = any, ParentType extends ResolversParentTypes['QueryAuthorsConnectionEdge'] = ResolversParentTypes['QueryAuthorsConnectionEdge']> = {
+  cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  node?: Resolver<Maybe<ResolversTypes['author']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type QueryBooksConnectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['QueryBooksConnection'] = ResolversParentTypes['QueryBooksConnection']> = {
+  edges?: Resolver<Maybe<Array<Maybe<ResolversTypes['QueryBooksConnectionEdge']>>>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type QueryBooksConnectionEdgeResolvers<ContextType = any, ParentType extends ResolversParentTypes['QueryBooksConnectionEdge'] = ResolversParentTypes['QueryBooksConnectionEdge']> = {
+  cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  node?: Resolver<Maybe<ResolversTypes['book']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type AuthorResolvers<ContextType = any, ParentType extends ResolversParentTypes['author'] = ResolversParentTypes['author']> = {
+  authorId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  books?: Resolver<Maybe<ResolversTypes['authorBooksConnection']>, ParentType, ContextType, Partial<AuthorBooksArgs>>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type AuthorBooksConnectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['authorBooksConnection'] = ResolversParentTypes['authorBooksConnection']> = {
+  edges?: Resolver<Maybe<Array<Maybe<ResolversTypes['authorBooksConnectionEdge']>>>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type AuthorBooksConnectionEdgeResolvers<ContextType = any, ParentType extends ResolversParentTypes['authorBooksConnectionEdge'] = ResolversParentTypes['authorBooksConnectionEdge']> = {
+  cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  node?: Resolver<Maybe<ResolversTypes['book']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type BookResolvers<ContextType = any, ParentType extends ResolversParentTypes['book'] = ResolversParentTypes['book']> = {
+  bookId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
-  Author?: AuthorResolvers<ContextType>;
-  AuthorBooksConnection?: AuthorBooksConnectionResolvers<ContextType>;
-  AuthorBooksConnectionEdge?: AuthorBooksConnectionEdgeResolvers<ContextType>;
-  Book?: BookResolvers<ContextType>;
   Date?: GraphQLScalarType;
+  Node?: NodeResolvers<ContextType>;
   PageInfo?: PageInfoResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  QueryAuthorsConnection?: QueryAuthorsConnectionResolvers<ContextType>;
+  QueryAuthorsConnectionEdge?: QueryAuthorsConnectionEdgeResolvers<ContextType>;
+  QueryBooksConnection?: QueryBooksConnectionResolvers<ContextType>;
+  QueryBooksConnectionEdge?: QueryBooksConnectionEdgeResolvers<ContextType>;
+  author?: AuthorResolvers<ContextType>;
+  authorBooksConnection?: AuthorBooksConnectionResolvers<ContextType>;
+  authorBooksConnectionEdge?: AuthorBooksConnectionEdgeResolvers<ContextType>;
+  book?: BookResolvers<ContextType>;
 };
 

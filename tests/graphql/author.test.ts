@@ -1,35 +1,43 @@
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import { gql } from "graphql-tag";
-import { TestContext } from "@tests/utils/context";
-import { AuthorFactory } from "@tests/factories";
-import { cleanupDatabase } from "@tests/utils";
+
 import { prisma } from "@/db";
+import { AuthorFactory } from "@tests/factories";
+import { cleanupDatabase, expectRelayConnection, TestContext } from "@tests/utils";
 
 interface GetAuthorsResponse {
-  authors: Array<{
-    id: string;
-    name: string;
-    books: {
-      edges: Array<{
-        node: {
-          id: string;
-          title: string;
+  authors: {
+    edges: Array<{
+      node: {
+        authorId: number;
+        name: string;
+        books: {
+          edges: Array<{
+            node: {
+              bookId: number;
+              title: string;
+            };
+          }>;
         };
-      }>;
-    };
-  }>;
+      };
+    }>;
+  };
 }
 
 const GET_AUTHORS = gql`
-  query GetAuthors($id: Int!) {
-    authors(id: $id) {
-      id
-      name
-      books {
-        edges {
-          node {
-            id
-            title
+  query GetAuthors($authorId: Int!) {
+    authors(authorId: $authorId) {
+      edges {
+        node {
+          authorId
+          name
+          books {
+            edges {
+              node {
+                bookId
+                title
+              }
+            }
           }
         }
       }
@@ -49,39 +57,34 @@ describe("When querying authors endpoint", () => {
     await prisma.$disconnect();
   });
 
-  it("should return author with books using dataloader", async () => {
+  it("should return author with books", async () => {
     const authorFactory = new AuthorFactory(prisma);
     const author = await authorFactory.createWithBooks(
-      2,
       {
-        name: "Test Author",
+        name: "Andy Weir",
       },
-      [{ title: "Book 1" }, { title: "Book 2" }]
+      [{ title: "The Martian" }, { title: "Project Hail Mary" }]
     );
 
     const response = await ctx.query<GetAuthorsResponse>(GET_AUTHORS, {
-      id: author.id,
+      authorId: author.id,
     });
 
     expect(response.success).toBe(true);
-    expect(response.data?.authors[0]).toMatchObject({
-      id: author.id.toString(),
-      name: "Test Author",
-      books: {
-        edges: expect.arrayContaining([
-          expect.objectContaining({
-            node: expect.objectContaining({
-              title: "Book 1",
-            }),
-          }),
-          expect.objectContaining({
-            node: expect.objectContaining({
-              title: "Book 2",
-            }),
-          }),
-        ]),
+    expectRelayConnection(response.data?.authors, [
+      {
+        authorId: author.id.toString(),
+        name: "Andy Weir",
+        books: [
+          {
+            title: "The Martian",
+          },
+          {
+            title: "Project Hail Mary",
+          },
+        ],
       },
-    });
+    ]);
   });
 
   it("should handle GraphQL errors", async () => {

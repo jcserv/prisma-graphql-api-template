@@ -1,75 +1,54 @@
+import { GraphQLError } from "graphql";
+
 import { prisma } from "@/db";
 import { builder, QueryFieldBuilder } from "@/graphql/builder";
-import { BookNode } from "@/graphql/nodes/book";
-import { compare } from "@/utils";
-import { author, book } from "@prisma/client";
 
-export const AuthorNode = builder.objectRef<author>("Author").implement({
+builder.prismaNode("author", {
+  id: {
+    field: "id",
+    description: "A unique string identifier for a card, used for pagination.",
+  },
   fields: (t) => ({
-    id: t.exposeID("id"),
-    name: t.exposeString("name"),
-    books: t.connection({
-      type: BookNode,
-      resolve: async (parent, args, context) => {
-        const allBooks = await context.loaders.booksByAuthor.load(
-          parent.id,
-        );
-
-        const sortedBooks = [...allBooks].sort((a, b) => compare(a.id, b.id));
-
-        const take = args.first ?? 10;
-
-        let startIndex = 0;
-        if (args.after) {
-          const cursorIndex = sortedBooks.findIndex(
-            (book) => book.id === parseInt(args.after ?? ""),
-          );
-          startIndex = cursorIndex + 1;
-        }
-
-        const paginatedBooks = sortedBooks.slice(
-          startIndex,
-          startIndex + take + 1,
-        );
-
-        const hasNextPage = paginatedBooks.length > take;
-        const nodes = hasNextPage
-          ? paginatedBooks.slice(0, -1)
-          : paginatedBooks;
-
-        const edges = nodes.map((node) => ({
-          cursor: node.id?.toString(),
-          node,
-        })) as Array<{
-          cursor: string;
-          node: book;
-        }>;
-
-        return {
-          edges,
-          pageInfo: {
-            hasNextPage,
-            hasPreviousPage: !!args.after,
-            startCursor: edges[0]?.cursor ?? null,
-            endCursor: edges[edges.length - 1]?.cursor ?? null,
-          },
-        };
-      },
+    authorId: t.exposeID("id", {
+      description: "The numeric unique identifier of the author.",
+    }),
+    name: t.exposeString("name", { description: "The name of the author." }),
+    books: t.relatedConnection("book", {
+      cursor: 'id',
     }),
   }),
 });
 
 export function addAuthorNode(t: QueryFieldBuilder) {
-  return t.field({
-    type: [AuthorNode],
+  return t.prismaConnection({
+    type: "author",
+    cursor: "id",
+    maxSize: 100,
     args: {
-      id: t.arg.int({ required: true }),
+      authorId: t.arg.int({
+        required: false,
+        description: "The numeric unique identifier of the author.",
+      }),
     },
-    resolve: async (_parent, args) => {
+    resolve: async (query, _parent, args) => {
+      if ((args.first ?? 0 ) + (args.last ?? 0) > 100) {
+        throw new GraphQLError('Invalid argument value', {
+          extensions: {
+            code: 'BAD_USER_INPUT',
+            detail: 'The maximum amount of cards that can be returned is 100',
+          },
+        });
+      }
+      if (args.authorId) {
+        const author = await prisma.author.findUnique({
+          where: {
+            id: args.authorId,
+          },
+        });
+        return author ? [author] : [];
+      }
       return prisma.author.findMany({
-        where: {
-          id: args.id,
-        },
+        ...query,
       });
     },
   });
