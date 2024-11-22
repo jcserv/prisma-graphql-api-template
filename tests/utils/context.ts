@@ -1,13 +1,12 @@
-import { ApolloServer } from '@apollo/server';
+import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import { DocumentNode, print, GraphQLError } from 'graphql';
+import { DocumentNode, print, GraphQLError } from "graphql";
 import { ClientError, GraphQLClient } from "graphql-request";
 
-import { createPothosSchema } from '@/graphql/schema';
-import { Context } from '@/context';
-import { GraphQLResponse } from '@tests/graphql/types';
-import { prisma } from '@/db';
-
+import { createPothosSchema } from "@/graphql/schema";
+import { Context } from "@/context";
+import { GraphQLResponse } from "@tests/graphql/types";
+import { prisma } from "@/db";
 
 export class TestContext {
   public server: ApolloServer<Context>;
@@ -35,7 +34,7 @@ export class TestContext {
   async query<TData>(
     query: string | DocumentNode,
     variables?: Record<string, unknown>,
-    contextOverrides: Partial<Context> = {}
+    contextOverrides: Partial<Context> = {},
   ): Promise<GraphQLResponse<TData>> {
     try {
       if (Object.keys(contextOverrides).length > 0) {
@@ -46,7 +45,10 @@ export class TestContext {
       }
 
       const queryString = typeof query === "string" ? query : print(query);
-      const data = await TestContext.client.request<TData>(queryString, variables);
+      const data = await TestContext.client.request<TData>(
+        queryString,
+        variables,
+      );
 
       return {
         success: true,
@@ -59,8 +61,9 @@ export class TestContext {
           success: false,
           errors: [new GraphQLError(error.message, { originalError: error })],
         };
-      }      
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      }
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error occurred";
       console.error(error);
       return {
         success: false,

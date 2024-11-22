@@ -1,6 +1,10 @@
 import { prisma } from "@/db";
 import { BookFactory } from "@tests/factories";
-import { TestContext, cleanupDatabase, expectRelayConnection } from "@tests/utils";
+import {
+  TestContext,
+  cleanupDatabase,
+  expectRelayConnection,
+} from "@tests/utils";
 import gql from "graphql-tag";
 
 interface GetBooksResponse {
@@ -42,12 +46,12 @@ describe("When querying books endpoint", () => {
   it("should return book", async () => {
     const bookFactory = new BookFactory(prisma);
     const book = await bookFactory.createWithAuthor(
-        {
-          title: "The Martian",
-        },
-        {
-          name: "Andy Weir",
-        }
+      {
+        title: "The Martian",
+      },
+      {
+        name: "Andy Weir",
+      },
     );
 
     const response = await ctx.query<GetBooksResponse>(GET_BOOKS, {

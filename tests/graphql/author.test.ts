@@ -3,7 +3,11 @@ import { gql } from "graphql-tag";
 
 import { prisma } from "@/db";
 import { AuthorFactory } from "@tests/factories";
-import { cleanupDatabase, expectRelayConnection, TestContext } from "@tests/utils";
+import {
+  cleanupDatabase,
+  expectRelayConnection,
+  TestContext,
+} from "@tests/utils";
 
 interface GetAuthorsResponse {
   authors: {
@@ -63,7 +67,7 @@ describe("When querying authors endpoint", () => {
       {
         name: "Andy Weir",
       },
-      [{ title: "The Martian" }, { title: "Project Hail Mary" }]
+      [{ title: "The Martian" }, { title: "Project Hail Mary" }],
     );
 
     const response = await ctx.query<GetAuthorsResponse>(GET_AUTHORS, {
@@ -88,13 +92,11 @@ describe("When querying authors endpoint", () => {
   });
 
   it("should handle GraphQL errors", async () => {
-    const response = await ctx.query(
-      gql`
-        query InvalidQuery {
-          invalidField
-        }
-      `
-    );
+    const response = await ctx.query(gql`
+      query InvalidQuery {
+        invalidField
+      }
+    `);
 
     expect(response.success).toBe(false);
     expect(response.errors).toBeDefined();

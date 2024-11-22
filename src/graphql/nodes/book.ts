@@ -22,14 +22,17 @@ export function addBookNode(t: QueryFieldBuilder) {
     maxSize: 100,
     description: "The books written by the author.",
     args: {
-      bookId: t.arg.int({ required: false, description: "The numeric unique identifier of the book." }),
+      bookId: t.arg.int({
+        required: false,
+        description: "The numeric unique identifier of the book.",
+      }),
     },
     resolve: async (query, _parent, args) => {
-      if ((args.first ?? 0 ) + (args.last ?? 0) > 100) {
-        throw new GraphQLError('Invalid argument value', {
+      if ((args.first ?? 0) + (args.last ?? 0) > 100) {
+        throw new GraphQLError("Invalid argument value", {
           extensions: {
-            code: 'BAD_USER_INPUT',
-            detail: 'The maximum amount of cards that can be returned is 100',
+            code: "BAD_USER_INPUT",
+            detail: "The maximum amount of cards that can be returned is 100",
           },
         });
       }

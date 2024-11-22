@@ -43,6 +43,7 @@ with all the required configuration out of the box.
 5. visit http://localhost:4000/graphql in your browser
 
 ### running tests
+
 1. run `pnpm test:db:down`
 2. run `pnpm test:db`
 3. run `pnpm test`

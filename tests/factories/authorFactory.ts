@@ -25,7 +25,7 @@ export class AuthorFactory {
   }
 
   async createMany(
-    input: Partial<CreateAuthorInput>[] = []
+    input: Partial<CreateAuthorInput>[] = [],
   ): Promise<author[]> {
     const authors = [];
     for (let i = 0; i < input.length; i++) {
@@ -36,7 +36,7 @@ export class AuthorFactory {
 
   async createWithBooks(
     authorInput: Partial<Omit<CreateAuthorInput, "book">> = {},
-    bookInputs: Partial<CreateBookInput>[] = []
+    bookInputs: Partial<CreateBookInput>[] = [],
   ): Promise<author> {
     const defaultBookInputs = Array(bookInputs.length)
       .fill(null)

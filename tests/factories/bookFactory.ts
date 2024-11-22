@@ -15,7 +15,7 @@ export class BookFactory {
 
   async create(
     authorId: number,
-    input: Partial<Omit<CreateBookInput, "author">> = {}
+    input: Partial<Omit<CreateBookInput, "author">> = {},
   ): Promise<book> {
     const data: Prisma.bookCreateInput = {
       ...BookFactory.getDefaults(),
@@ -32,7 +32,7 @@ export class BookFactory {
 
   async createMany(
     authorId: number,
-    input: Partial<Omit<CreateBookInput, "author">>[] = []
+    input: Partial<Omit<CreateBookInput, "author">>[] = [],
   ): Promise<book[]> {
     const books = [];
     for (let i = 0; i < input.length; i++) {
@@ -43,7 +43,7 @@ export class BookFactory {
 
   async createWithAuthor(
     bookInput: Partial<Omit<CreateBookInput, "author">> = {},
-    authorInput: Partial<Omit<CreateAuthorInput, "book">> = {}
+    authorInput: Partial<Omit<CreateAuthorInput, "book">> = {},
   ): Promise<book> {
     const author = await this.prisma.author.create({
       data: {

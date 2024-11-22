@@ -13,7 +13,7 @@ export function toMatchRelayConnection(expected: any): any {
       edges: expect.arrayContaining(
         expected.map((item) => ({
           node: expect.objectContaining(toMatchRelayConnection(item)),
-        }))
+        })),
       ),
     };
   } else if (expected && typeof expected === "object") {

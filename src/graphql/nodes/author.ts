@@ -14,7 +14,7 @@ builder.prismaNode("author", {
     }),
     name: t.exposeString("name", { description: "The name of the author." }),
     books: t.relatedConnection("book", {
-      cursor: 'id',
+      cursor: "id",
     }),
   }),
 });
@@ -31,11 +31,11 @@ export function addAuthorNode(t: QueryFieldBuilder) {
       }),
     },
     resolve: async (query, _parent, args) => {
-      if ((args.first ?? 0 ) + (args.last ?? 0) > 100) {
-        throw new GraphQLError('Invalid argument value', {
+      if ((args.first ?? 0) + (args.last ?? 0) > 100) {
+        throw new GraphQLError("Invalid argument value", {
           extensions: {
-            code: 'BAD_USER_INPUT',
-            detail: 'The maximum amount of cards that can be returned is 100',
+            code: "BAD_USER_INPUT",
+            detail: "The maximum amount of cards that can be returned is 100",
           },
         });
       }

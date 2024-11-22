@@ -9,6 +9,6 @@
       "runtimeExecutable": "npm",
       "envFile": "${workspaceFolder}/.env",
       "outputCapture": "std"
-    },
+    }
   ]
 }
