@@ -8,7 +8,7 @@ with all the required configuration out of the box.
 ## features
 
 - 💠 prisma orm, apollo server, pothos, relay
-- 🌀 end-to-end type safety via code generation (prisma -> pothos -> graphql-codegen)
+- 🌀 end-to-end type safety via code generation (prisma -> pothos)
 - 📑 automagical pagination support via relay
 - 📦 automatic query optimization to solve n+1 problem (provided via [prisma](https://pothos-graphql.dev/docs/plugins/prisma/connections))
 - 🧪 unit/e2e tests setup
