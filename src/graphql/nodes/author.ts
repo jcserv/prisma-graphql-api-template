@@ -44,11 +44,17 @@ export function addAuthorNode(t: QueryFieldBuilder) {
           where: {
             id: args.authorId,
           },
+          include: {
+            book: true,
+          }
         });
         return author ? [author] : [];
       }
       return prisma.author.findMany({
         ...query,
+        include: {
+          book: true,
+        },
       });
     },
   });
