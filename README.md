@@ -1,7 +1,5 @@
 # prisma-graphql-api-template
 
-![visitors](https://img.shields.io/endpoint?url=https://vu-mi.com/api/v1/views?id=jcserv/prisma-graphql-api-template)
-
 this template can be used to quickly setup a prisma + graphql + typescipt project,
 with all the required configuration out of the box.
 
